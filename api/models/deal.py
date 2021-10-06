@@ -1,16 +1,16 @@
 from django.db import models
 
 
-class Order(models.Model):
-    title = models.CharField(max_length=50, verbose_name='Product Name')
+class Deal(models.Model):
+    title = models.CharField(max_length=50, verbose_name='Name deal')
     description = models.TextField(verbose_name='Description')
-    customer = models.ForeignKey(
-        'User',
+    client = models.ForeignKey(
+        'Client',
+        verbose_name='Client',
         on_delete=models.CASCADE,
-        related_name='order',
-        verbose_name='User'
+        related_name='deal',
     )
-    product = models.ManyToManyField(
+    products = models.ManyToManyField(
         'Product',
         verbose_name='products',
         related_name='product_order'
@@ -20,8 +20,8 @@ class Order(models.Model):
     delivery_code = models.CharField(max_length=50, verbose_name='Delivery code')
 
     class Meta:
-        verbose_name = ''
-        verbose_name_plural = ''
+        verbose_name = 'Deal'
+        verbose_name_plural = 'Deals'
 
     def __str__(self):
         return self.title
