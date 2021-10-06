@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  web:
+    container_name: bitrix24_web
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    command: python3 manage.py runserver 0.0.0.0:8000
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    container_name: bitrix24_db
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=bitrix24
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+
+
